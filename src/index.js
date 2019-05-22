@@ -4,11 +4,41 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
-import { createStore } from "redux";
 import { reducer } from './Redux'
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import * as Sentry from '@sentry/browser';
 
+Sentry.init({
+    dsn: "https://036e7ba554094a83932bbe2eaae9d226@sentry.io/1462775"
+})
 
-const store = createStore(reducer)
+const logger = store => next => action => {
+    console.log('dispatching', action)
+    let result = next(action)
+    console.log('next state', store.getState())
+    return result
+}
+
+const crashReporter = store => next => action => {
+    try {
+        return next(action)
+    } catch (err) {
+        console.error('Caught an exception!', err)
+        Sentry.captureException(err, {
+            extra: {
+                action,
+                state: store.getState()
+            }
+        })
+        throw err
+    }
+}
+
+const store = createStore(reducer, composeWithDevTools(
+    applyMiddleware(logger, crashReporter),
+));
+
 
 
 

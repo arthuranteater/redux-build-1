@@ -39,15 +39,15 @@ class Redux extends React.Component {
     }
 
 
-    dave = () => {
-        console.log('sending dave')
+    hunt = () => {
+        console.log('sending Hunt')
         this.props.dispatch({
             type: "SET_USER",
             user: {
-                avatar: "https://www.gravatar.com/avatar/5c3dd2d257ff0e14dbd2583485dbd44b",
-                name: "Dave",
-                followers: 1234,
-                following: 123
+                avatar: "https://arthuranteater.com/static/noshaun.3f286b2e.png",
+                name: "Hunt",
+                followers: 1000000,
+                following: 95
             }
         });
     }
@@ -82,10 +82,10 @@ class Redux extends React.Component {
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <div onChange={this.handleChange}>
-                        <input value={avatar} name='avatar' placeholder='avatar' />
-                        <input value={name} name='name' placeholder='name' />
-                        <input value={followers} name='followers' placeholder='followers'></input>
-                        <input value={following} name='following' placeholder='following'></input>
+                        <input defaultValue={avatar} name='avatar' placeholder='avatar' />
+                        <input defaultValue={name} name='name' placeholder='name' />
+                        <input defaultValue={followers} name='followers' placeholder='followers'></input>
+                        <input defaultValue={following} name='following' placeholder='following'></input>
                     </div>
                     <button type='submit'>Dispatch</button>
                 </form>

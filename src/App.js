@@ -2,9 +2,7 @@ import React from 'react';
 import "./styles.css";
 import Regular from './Regular'
 import Redux from './Redux'
-import Context from './Context'
-
-
+import { Context } from './Context'
 
 class App extends React.Component {
   constructor(props) {
@@ -12,6 +10,7 @@ class App extends React.Component {
     console.log('App constructor called')
   }
   state = {
+    mgmt: 'redux'
   }
 
   handleClick = e => {
@@ -23,7 +22,7 @@ class App extends React.Component {
 
   render() {
     const { mgmt } = this.state
-    console.log('mgmt', mgmt)
+    console.log('state management', mgmt)
 
     return (
       <div id="top">
@@ -32,10 +31,10 @@ class App extends React.Component {
           <a href='#top' name='redux'>Redux</a> |
           <a href='#top' name='context'>Context</a>
         </nav>
-        {mgmt === 'regular' ? <Regular /> : <div></div>}
-        {mgmt !== 'regular' ? <Redux /> : <div></div>}
-      </div>
-    );
+        {mgmt === 'regular' ? (<div><h2>Regular</h2> <Regular /></div>) : <div></div>}
+        {mgmt === 'redux' ? (<div><h2>Redux</h2><Redux /></div>) : <div></div>}
+        {mgmt === 'context' ? (<div><h2>Context</h2> <Context /></div>) : <div></div>}
+      </div>)
   }
 }
 

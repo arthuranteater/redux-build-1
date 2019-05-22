@@ -40,20 +40,38 @@ const Body = ({ sidebar, content }) => (
 
 class Regular extends React.Component {
     state = {
-        user: {
-            avatar:
-                "https://www.gravatar.com/avatar/5c3dd2d257ff0e14dbd2583485dbd44b",
-            name: "Dave",
-            followers: 1234,
-            following: 123
-        }
+        avatar:
+            "https://arthuranteater.com/static/noshaun.3f286b2e.png",
+        name: "Hunt",
+        followers: '1,000,000',
+        following: 'g95'
+    }
+
+    handleChange = e => {
+        const val = e.target.value
+        const name = e.target.name
+        this.setState(prevState => ({
+            ...prevState,
+            [name]: val
+        }))
     }
 
     render() {
-        const { user } = this.state;
+        const user = { ...this.state }
+        const { avatar, name, followers, following } = this.state
+
 
         return (
             <div>
+                <form onSubmit={this.handleSubmit}>
+                    <div onChange={this.handleChange}>
+                        <input defaultValue={avatar} name='avatar' placeholder='avatar' />
+                        <input defaultValue={name} name='name' placeholder='name' />
+                        <input defaultValue={followers} name='followers' placeholder='followers'></input>
+                        <input defaultValue={following} name='following' placeholder='following'></input>
+                    </div>
+                    <button type='submit'>Update User</button>
+                </form>
                 <Nav>
                     <UserAvatar user={user} size="small" />
                 </Nav>
