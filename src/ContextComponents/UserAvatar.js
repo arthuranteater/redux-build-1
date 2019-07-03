@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserContext } from '../Context'
+import { UserContext } from '../StateManagement/Context'
 
 const UserAvatar = ({ size }) => (
     <UserContext.Consumer>

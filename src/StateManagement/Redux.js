@@ -1,15 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import UserAvatar from './UserAvatar'
-import UserStats from './UserStats'
+import UserAvatar from '../ReduxComponents/UserAvatar'
+import UserStats from '../ReduxComponents/UserStats'
+import UndoRedo from '../ReduxComponents/UndoRedo'
 
 
 // Create a reducer with an empty initial state
-const initialState = {};
-export function reducer(state = initialState, action) {
+export const reducer = (state = {}, action) => {
     switch (action.type) {
-        // Respond to the SET_USER action and update
-        // the state accordingly
         case "SET_USER":
             return {
                 ...state,
@@ -18,7 +16,7 @@ export function reducer(state = initialState, action) {
         case "SET_MGMT":
             return {
                 ...state,
-                mgmt: action.mgmt
+                mgmt: action.user
             }
         default:
             return state;
@@ -27,8 +25,8 @@ export function reducer(state = initialState, action) {
 
 
 const mapStateToProps = state => ({
-    user: state.user,
-    mgmt: state.mgmt
+    user: state.present.user,
+    mgmt: state.present.mgmt
 });
 
 
@@ -82,13 +80,14 @@ class Redux extends React.Component {
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <div onChange={this.handleChange}>
-                        <input defaultValue={avatar} name='avatar' placeholder='avatar' />
+                        <input defaultValue={avatar} name='avatar' placeholder='avatar img address' />
                         <input defaultValue={name} name='name' placeholder='name' />
                         <input defaultValue={followers} name='followers' placeholder='followers'></input>
                         <input defaultValue={following} name='following' placeholder='following'></input>
                     </div>
                     <button type='submit'>Dispatch</button>
                 </form>
+                <UndoRedo />
 
                 <div className="nav">
                     <UserAvatar size="small" />

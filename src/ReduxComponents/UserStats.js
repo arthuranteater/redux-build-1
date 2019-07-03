@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import UserAvatar from './UserAvatar'
 
 const mapStateToProps = state => ({
-    user: state.user
+    user: state.present.user
 });
 
 // connect() UserStats so it receives the `user` directly,

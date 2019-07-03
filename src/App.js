@@ -1,8 +1,8 @@
 import React from 'react';
 import "./styles.css";
-import Regular from './Regular'
-import Redux from './Redux'
-import { Context } from './Context'
+import Regular from './StateManagement/Regular'
+import Redux from './StateManagement/Redux'
+import { Context } from './StateManagement/Context'
 
 class App extends React.Component {
   constructor(props) {

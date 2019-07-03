@@ -1,32 +1,44 @@
-import React from "react"
-import "./styles.css"
-import UserAvatar from './Context/UserAvatar'
-import UserStats from './Context/UserStats'
+import React from 'react';
+import "../styles.css";
 
-export const UserContext = React.createContext()
+const UserAvatar = ({ user, size }) => (
+    <img
+        className={`user-avatar ${size || ""}`}
+        alt="user avatar"
+        src={user.avatar}
+    />
+);
 
-const Nav = () => (
-    <div className="nav">
-        <UserAvatar size="small" />
+const UserStats = ({ user }) => (
+    <div className="user-stats">
+        <div>
+            <UserAvatar user={user} />
+            {user.name}
+        </div>
+        <div className="stats">
+            <div>{user.followers} Followers</div>
+            <div>Following {user.following}</div>
+        </div>
     </div>
 );
+
+// Accept children and render it/them
+const Nav = ({ children }) => <div className="nav">{children}</div>;
 
 const Content = () => <div className="content">main content here</div>;
 
-const Sidebar = () => (
-    <div className="sidebar">
-        <UserStats />
-    </div>
-);
+const Sidebar = ({ children }) => <div className="sidebar">{children}</div>;
 
-const Body = () => (
+// Body needs a sidebar and content, but written this way,
+// they can be ANYTHING
+const Body = ({ sidebar, content }) => (
     <div className="body">
-        <Sidebar />
-        <Content />
+        <Sidebar>{sidebar}</Sidebar>
+        {content}
     </div>
 );
 
-export class Context extends React.Component {
+class Regular extends React.Component {
     state = {
         form: {
             avatar: '',
@@ -69,23 +81,33 @@ export class Context extends React.Component {
         e.preventDefault()
         const { count } = this.state
         if (count > 0) {
-            this.setState({
-                count: count - 1
-            })
+            this.setState(prevState => ({
+                count: prevState.count - 1
+            }))
+        }
+    }
+
+    handleNext = e => {
+        e.preventDefault()
+        const { count, users } = this.state
+        if (count < users.length - 1) {
+            this.setState(prevState => ({
+                count: prevState.count + 1
+            }))
         }
     }
 
     render() {
-
         const { avatar, name, followers, following } = this.state.form
         const { users, count } = this.state
         const user = users[count]
 
+
         return (
-            <div className="app">
+            <div>
                 <form onSubmit={this.handleSubmit}>
                     <div onChange={this.handleChange}>
-                        <input defaultValue={avatar} name='avatar' placeholder='avatar' />
+                        <input defaultValue={avatar} name='avatar' placeholder='avatar img address' />
                         <input defaultValue={name} name='name' placeholder='name' />
                         <input defaultValue={followers} name='followers' placeholder='followers'></input>
                         <input defaultValue={following} name='following' placeholder='following'></input>
@@ -94,11 +116,13 @@ export class Context extends React.Component {
                 </form>
                 <button onClick={this.handlePrev}>Previous User</button>
                 <button onClick={this.handleNext}>Next User</button>
-                <UserContext.Provider value={user}>
-                    <Nav />
-                    <Body />
-                </UserContext.Provider>
+                <Nav>
+                    <UserAvatar user={user} size="small" />
+                </Nav>
+                <Body sidebar={<UserStats user={user} />} content={<Content />} />
             </div>
         );
     }
 }
+
+export default Regular

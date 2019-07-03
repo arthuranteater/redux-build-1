@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from "react-redux";
 
 const mapStateToProps = state => ({
-    user: state.user
+    user: state.present.user
 });
 
 // could also split this up into 2 variables:

@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
-import { reducer } from './Redux'
+import undoable from 'redux-undo'
+import { reducer } from './StateManagement/Redux'
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import * as Sentry from '@sentry/browser';
@@ -35,7 +36,20 @@ const crashReporter = store => next => action => {
     }
 }
 
-const store = createStore(reducer, composeWithDevTools(
+const initialHistory = {
+    past: [],
+    present: {
+        user: {
+            avatar: "https://arthuranteater.com/static/noshaun.3f286b2e.png",
+            name: "Hunt",
+            followers: 1000000,
+            following: 'g95'
+        }
+    },
+    future: []
+}
+
+const store = createStore(undoable(reducer), initialHistory, composeWithDevTools(
     applyMiddleware(logger, crashReporter),
 ));
 

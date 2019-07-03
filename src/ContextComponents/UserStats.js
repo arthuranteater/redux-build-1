@@ -1,6 +1,6 @@
 import React from 'react'
 import UserAvatar from './UserAvatar'
-import { UserContext } from '../Context'
+import { UserContext } from '../StateManagement/Context'
 
 const UserStats = () => (
     <UserContext.Consumer>
